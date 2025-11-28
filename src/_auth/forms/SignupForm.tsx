@@ -32,9 +32,7 @@ const SignupForm = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
-
   
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),

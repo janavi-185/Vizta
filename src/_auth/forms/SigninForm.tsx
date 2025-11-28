@@ -30,8 +30,6 @@ const SigninForm = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
 
-  
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -40,7 +38,7 @@ const SigninForm = () => {
       password: "",
     },
   })
-  console.log('check befor session')
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SigninValidation>) {
     
@@ -48,7 +46,6 @@ const SigninForm = () => {
       email: values.email,
       password: values.password,
     })
-    console.log('check after session')
 
     if (!session) {
       console.log('session failed')
@@ -59,8 +56,6 @@ const SigninForm = () => {
     
     const isLoggedIn = await checkAuthUser();
 
-    console.log('check after isLoggedIn before navigation')
-
     if (isLoggedIn) {
       form.reset();
       navigate('/');
@@ -69,14 +64,12 @@ const SigninForm = () => {
     }
   }
 
-
   return (
     <Form {...form}>
       <div className='sm:w-auto flex flex-center flex-col'>
         <img src="/assets/images/logo.svg" alt="image" />
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12 '>Log in to Your account</h2>
         <p className='small-medium md:base-regular'>To Use Something Enter your account details..</p>
-
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 flex flex-col w-full mt-4 gap-2">
           
@@ -115,8 +108,8 @@ const SigninForm = () => {
               </div>
             ) : "Sign Up"}
           </Button>
-          <p className='text-center '>Already have account?<Link to='/sign-in' className='text-primary hover:cursor-pointer ml-1' >
-            Login
+          <p className='text-center '>Don't have account?<Link to='/sign-up' className='text-primary hover:cursor-pointer ml-1' >
+            Sign up
           </Link></p>
         </form>
       </div>
