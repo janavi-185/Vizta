@@ -60,13 +60,12 @@ export async function signInAccount(user: {
     password: string;
 }) {
     try {
-        // Delete any existing session before creating a new one
-        try {
-            await account.deleteSession('current');
-        } catch {
-            // No active session to delete, continue
-        }
-
+        // // Delete any existing session before creating a new one
+        // try {
+        //     await account.deleteSession('current');
+        // } catch {
+        //     // No active session to delete, continue
+        // }
         const session = await account.createEmailPasswordSession(user.email, user.password);
 
         return session;
@@ -104,7 +103,7 @@ export async function signOutAccount() {
         const session = await account.deleteSession('current');
 
         return session;
-        
+
     } catch (error) {
         console.log(error);
     }

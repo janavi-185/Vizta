@@ -167,13 +167,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
 .h1-bold {
-    @apply text-[36px] font-bold leading-[140%] tracking-tighter;
+  @apply text-[36px] font-bold leading-[140%] tracking-tighter;
 }
 
 .h1-semibold {
@@ -185,89 +186,117 @@
 }
 
 .h3-bold {
-    @apply text-[24px] font-bold leading-[140%] tracking-tighter;
-  }
+  @apply text-[24px] font-bold leading-[140%] tracking-tighter;
+}
 
-  .base-semibold {
-    @apply text-[16px] font-semibold leading-[140%] tracking-tighter;
-  }
+.base-semibold {
+  @apply text-[16px] font-semibold leading-[140%] tracking-tighter;
+}
 
-  .base-medium {
-    @apply text-[16px] font-medium leading-[140%];
-  }
+.base-medium {
+  @apply text-[16px] font-medium leading-[140%];
+}
 
-  .base-regular {
-    @apply text-[16px] font-normal leading-[140%];
-  }
+.base-regular {
+  @apply text-[16px] font-normal leading-[140%];
+}
 
-  .body-bold {
-    @apply text-[18px] font-bold leading-[140%];
-  }
+.body-bold {
+  @apply text-[18px] font-bold leading-[140%];
+}
 
-  .body-medium {
-    @apply text-[18px] font-medium leading-[140%];
-  }
+.body-medium {
+  @apply text-[18px] font-medium leading-[140%];
+}
 
-  .small-semibold {
-    @apply text-[14px] font-semibold leading-[140%] tracking-tighter;
-  }
+.small-semibold {
+  @apply text-[14px] font-semibold leading-[140%] tracking-tighter;
+}
 
-  .small-medium {
-    @apply text-[14px] font-medium leading-[140%];
-  }
+.small-medium {
+  @apply text-[14px] font-medium leading-[140%];
+}
 
-  .small-regular {
-    @apply text-[14px] font-normal leading-[140%];
-  }
+.small-regular {
+  @apply text-[14px] font-normal leading-[140%];
+}
 
-  .subtle-semibold {
-    @apply text-[12px] font-semibold leading-[140%];
-  }
+.subtle-semibold {
+  @apply text-[12px] font-semibold leading-[140%];
+}
 
-  .tiny-medium {
-    @apply text-[10px] font-medium leading-[140%];
-  }
+.tiny-medium {
+  @apply text-[10px] font-medium leading-[140%];
+}
 
-  /* UTILITIES */
-  .invert-white {
-    @apply invert brightness-0 transition;
-  }
+/* UTILITIES */
+.invert-white {
+  filter: brightness(0) saturate(100%) invert(1);
+  transition: filter 0.2s ease-in-out;
+}
 
-  .flex-center {
-    @apply flex justify-center items-center;
-  }
+.flex-center {
+  @apply flex justify-center items-center;
+}
 
-  .flex-between {
-    @apply flex justify-between items-center;
-  }
+.flex-between {
+  @apply flex justify-between items-center;
+}
 
-  .flex-start {
-    @apply flex justify-start items-center;
-  }
+.flex-start {
+  @apply flex justify-start items-center;
+}
 
-  .shad-form_label {
-    @apply text-white ;
-  }
+.shad-form_label {
+  @apply text-white;
+}
 
-  
 
-  .shad-input {
-    @apply h-12 border-none  ;
-  }
 
-  .shad-textarea {
-    @apply h-36  rounded-xl border-none ;
-  }
+.shad-input {
+  @apply h-12 border-none;
+}
 
-  /* Button */
-  .shad-button_primary {
-    @apply bg-primary hover:bg-primary flex gap-2 ;
-  }
+.shad-textarea {
+  @apply h-36 rounded-xl border-none;
+}
 
-  .shad-button_dark_4 {
-    @apply h-12  px-5 flex gap-2 ;
-  }
+/* Button */
+.shad-button_primary {
+  @apply bg-primary hover:bg-primary flex gap-2;
+}
 
-  .shad-button_ghost {
-    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white ;
-  }
+.shad-button_dark_4 {
+  @apply h-12 px-5 flex gap-2;
+}
+
+.shad-button_ghost {
+  @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white;
+}
+
+.leftsidebar {
+  @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px];
+}
+
+.leftsidebar-link {
+  @apply rounded-lg hover:bg-primary hover:text-white transition;
+}
+
+/* Post Card */
+.post-card {
+  @apply rounded-3xl border border-border p-5 lg:p-7 w-full max-w-screen-sm;
+}
+
+.post-card_img {
+  @apply h-64 lg:h-[450px] w-full rounded-3xl object-cover mb-5;
+}
+
+/* Topbar */
+.topbar {
+  @apply sticky top-0 z-50 md:hidden w-full;
+}
+
+/* User card */
+.user-card {
+  @apply flex justify-center items-center flex-col gap-4 border border-border rounded-[20px] px-5 py-8;
+}
