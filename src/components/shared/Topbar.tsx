@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { Button } from '../ui/button'
 import { useSignOutAccount } from '@/lib/react-query/queriesAndMutations'
 import { useEffect } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '@/context/AuthContext';
 
 const Topbar = () => {
@@ -16,8 +16,8 @@ const Topbar = () => {
   }, [isSuccess])
 
   return (
-    <section className='topbar'>
-      <div className='flex-between py-4 px-5'>
+    <section className='sticky top-0 z-50 sm:hidden w-full'>
+      <div className='flex justify-between items-center py-4 px-5'>
         <Link to='/' className='flex gap-3 items-center'>
           <img
             src="/assets/images/logo.svg"
@@ -33,7 +33,7 @@ const Topbar = () => {
             onClick={() => signOut()}>
             <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
-          <Link to={`/profile/${user.id}`} className='flex-center gap-3 '>
+          <Link to={`/profile/${user.id}`} className='flex justify-center items-center gap-3'>
             <img
               src={user.imageUrl || '/assets/icons/profile-placeholder.svg'}
               alt="profile"

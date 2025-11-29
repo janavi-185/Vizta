@@ -41,7 +41,7 @@ const SigninForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SigninValidation>) {
-    
+
     const session = await signInAccount({
       email: values.email,
       password: values.password,
@@ -53,7 +53,7 @@ const SigninForm = () => {
         description: "There was an issue while signing you in.",
       })
     }
-    
+
     const isLoggedIn = await checkAuthUser();
 
     if (isLoggedIn) {
@@ -66,13 +66,13 @@ const SigninForm = () => {
 
   return (
     <Form {...form}>
-      <div className='sm:w-auto flex flex-center flex-col'>
+      <div className='sm:w-auto flex flex-col justify-center items-center'>
         <img src="/assets/images/logo.svg" alt="image" />
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12 '>Log in to Your account</h2>
-        <p className='small-medium md:base-regular'>To Use Something Enter your account details..</p>
+        <p className='text-[14px] font-medium leading-[140%] md:text-[16px] md:font-normal md:leading-[140%]'>To Use Something Enter your account details..</p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 flex flex-col w-full mt-4 gap-2">
-          
+
           <FormField
             control={form.control}
             name="email"
@@ -102,7 +102,7 @@ const SigninForm = () => {
           />
           <Button type="submit">
             {isUserLoading ? (
-              <div className='flex-center gap-2'>
+              <div className='flex justify-center items-center gap-2'>
                 <Loader />
                 Loading...
               </div>

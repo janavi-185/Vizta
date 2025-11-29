@@ -1,6 +1,5 @@
-import React from 'react'
 import './global.css'
-import {Home} from './_root/pages'
+import {AllUsers, CreatePost, EditPost, Explore, Home, Profile, Saved, UpdateProfile} from './_root/pages'
 import { Toaster } from "@/components/ui/sonner"
 import SigninForm  from './_auth/forms/SigninForm'
 import SignupForm  from './_auth/forms/SignupForm'

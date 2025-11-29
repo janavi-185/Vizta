@@ -80,10 +80,10 @@ const SignupForm = () => {
 
   return (
     <Form {...form}>
-      <div className='sm:w-auto flex flex-center flex-col'>
+      <div className='sm:w-auto flex flex-col justify-center items-center'>
         <img src="/assets/images/logo.svg" alt="image" />
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12 '>Create a new account</h2>
-        <p className='small-medium md:base-regular'>To Use Something Enter your account details..</p>
+        <p className='text-[14px] font-medium leading-[140%] md:text-[16px] md:font-normal md:leading-[140%]'>To Use Something Enter your account details..</p>
 
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 flex flex-col w-full mt-4 gap-2">
@@ -142,7 +142,7 @@ const SignupForm = () => {
           />
           <Button type="submit">
             {isCreatingAccount ? (
-              <div className='flex-center gap-2'>
+              <div className='flex justify-center items-center gap-2'>
                 <Loader />
                 Loading...
               </div>
