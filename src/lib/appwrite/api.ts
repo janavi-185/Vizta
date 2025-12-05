@@ -1,6 +1,6 @@
 import { ID, Query } from 'appwrite';
-import type { INewUser } from '@/types';
-import { account, appwriteConfig, avatars, databases } from './config';
+import type { INewPost, INewUser } from '@/types';
+import { account, appwriteConfig, avatars, databases, storage } from './config';
 
 export async function createUserAccount(user: INewUser) {
 
@@ -99,7 +99,7 @@ export async function getCurrentUser() {
 
 
 export async function signOutAccount() {
-    try{
+    try {
         const session = await account.deleteSession('current');
 
         return session;
@@ -107,5 +107,109 @@ export async function signOutAccount() {
     } catch (error) {
         console.log(error);
     }
-    
+
+}
+
+//Create Post
+
+export async function createPost(post: INewPost) {
+    try {
+
+        //Upload file to storage
+        const uploadedFile = await uploadFile(post.file[0]);
+
+        if (!uploadedFile) throw Error;
+
+        //get url
+        // const fileUrl = getFilePreview(uploadedFile.$id);
+        const fileUrl = await getFilePreview(uploadedFile.$id);
+        // const fileUrl = fileUrlObj?.href;
+
+        if (!fileUrl) {
+            deleteFile(uploadedFile.$id);
+            console.log("File URL not found");
+            throw Error;
+        }
+
+        //convert tags in array
+        const tags = post.tags?.replace(/ /g, '').split(',') || [];
+
+        console.log("File URL:", fileUrl);
+        console.log("Tags Array:", tags);
+
+        //create post in db
+        const newPost = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            ID.unique(),
+            {
+                creator: post.userId,
+                caption: post.caption,
+                Image: fileUrl,
+                imageid: uploadedFile.$id,
+                location: post.location,
+                Tags: tags,
+            }
+            
+        )
+        
+        console.log("New Post after creation:", newPost);
+        if (!newPost) {
+            console.log("Post creation failed, deleted uploaded file.");
+            await deleteFile(uploadedFile.$id);
+            throw Error;
+            
+        }
+        return newPost;
+
+    } catch (error) {
+        console.log("Error creating post:", error);
+        console.log(error);
+    }
+
+}
+
+export async function uploadFile(file: File) {
+    try {
+        const uploadedFile = await storage.createFile(
+            appwriteConfig.storageId,
+            ID.unique(),
+            file
+        );
+
+        return uploadedFile;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getFilePreview(fileId: string) {
+    try {
+        const fileUrl = storage.getFilePreview(
+            appwriteConfig.storageId,
+            fileId,
+            2000,
+            2000,
+            "top",
+            100,
+        )
+        console.log("File URL from pervoew:", fileUrl);
+        return fileUrl;
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export async function deleteFile(fileId: string) {
+    try {
+        await storage.deleteFile(
+            appwriteConfig.storageId,
+            fileId
+        )
+        return { status: 'okay' };
+    } catch (error) {
+        console.log(error);
+    }
 }

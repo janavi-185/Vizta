@@ -200,6 +200,7 @@
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #7878a3;
   }
+
 /* 
 .common-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
@@ -208,3 +209,15 @@
   shad-textarea {
     @apply h-36 bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
   } */
+
+  .input-custom {
+  height: 48px !important;
+   /* border-none */
+}
+
+.input-custom:focus-visible {
+  outline: none !important;
+  box-shadow:
+    0 0 0 1px var(--shadow-color),   
+    0 0 0 2px var(--shadow-color);   
+  }

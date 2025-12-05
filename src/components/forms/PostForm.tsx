@@ -2,40 +2,58 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
 import FileUploader from "../shared/FileUploader"
- 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
+import { PostValidation } from "@/lib/validation"
+import type { Models } from "appwrite"
+import { useUserContext } from "@/context/AuthContext"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
+import { useCreatePost } from "@/lib/react-query/queriesAndMutations"
 
 
-const PostForm = () => {
-    // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+
+type PostFormProps = {
+  post?: Models.Document;
+
+}
+
+const PostForm = ({ post }: PostFormProps) => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
+  const { user } = useUserContext();
+  const navigate = useNavigate();
+
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof PostValidation>>({
+    resolver: zodResolver(PostValidation),
     defaultValues: {
-      username: "",
+
+      caption: post ? post?.caption : "",
+      file: [],
+      location: post ? post?.location : '',
+      tags: post? post.Tags.join(",") :'',
     },
-  })
- 
+  });
+
+
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof PostValidation>) {
+    const newPost = await createPost({
+      ...values,
+      userId: user.id,
+    })
+
+    if(!newPost){
+      toast('Please try again!',{
+        description: 'Post creation failed.'
+      })
+    }
+
+    navigate('/');
   }
   return (
     <Form {...form}>
@@ -47,8 +65,8 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="text-white !important">Caption</FormLabel>
               <FormControl>
-                <Textarea className="h-36 bg-accent rounded-xl border-border focus-visible:ring focus-visible:ring-border-1 !important;"
-                {...field} />
+                <Textarea className="h-36 rounded-xl outline-1 border-border "
+                  {...field} />
               </FormControl>
               <FormMessage className="text-red !important" />
             </FormItem>
@@ -61,13 +79,60 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="text-white !important">Add Photos</FormLabel>
               <FormControl>
-                <FileUploader/>
+                <FileUploader
+                  fieldChange={field.onChange}
+                  mediaUrl={post?.mediaUrl}
+                />
               </FormControl>
               <FormMessage className="text-red !important" />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-white !important">Location</FormLabel>
+              <FormControl>
+                <Input type="text" className="input-custom" {...field} />
+              </FormControl>
+              <FormMessage className="text-red !important" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-white !important">Add Tags (separated by comma ',' )</FormLabel>
+              <FormControl>
+                <Input type="text" className="input-custom border-border "
+                  placeholder="JS, Expression, Learn"
+                  {...field} />
+              </FormControl>
+              <FormMessage className="text-red !important" />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex gap-4 items-center justify-end">
+          <Button type="button"
+            variant='outline'
+            className="whitespace-nowrap border  rounded-sm border-border p-5"
+             >
+            Cancel
+          </Button>
+          <Button
+            type="submit" 
+            className="text-foreground p-5 rounded-sm">
+            Submit
+          </Button>
+        </div>
+
       </form>
     </Form>
   )
