@@ -66,7 +66,7 @@ export async function signInAccount(user: {
         // } catch {
         //     // No active session to delete, continue
         // }
-        const session = await account.createEmailPasswordSession(user.email, user.password);
+        const session = await account.createEmailSession(user.email, user.password);
 
         return session;
     }
@@ -121,8 +121,7 @@ export async function createPost(post: INewPost) {
         if (!uploadedFile) throw Error;
 
         //get url
-        // const fileUrl = getFilePreview(uploadedFile.$id);
-        const fileUrl = await getFilePreview(uploadedFile.$id);
+        const fileUrl =  getFileUrl(uploadedFile.$id);
         // const fileUrl = fileUrlObj?.href;
 
         if (!fileUrl) {
@@ -134,8 +133,8 @@ export async function createPost(post: INewPost) {
         //convert tags in array
         const tags = post.tags?.replace(/ /g, '').split(',') || [];
 
-        console.log("File URL:", fileUrl);
-        console.log("Tags Array:", tags);
+        // console.log("File URL:", fileUrl);
+        // console.log("Tags Array:", tags);
 
         //create post in db
         const newPost = await databases.createDocument(
@@ -184,22 +183,30 @@ export async function uploadFile(file: File) {
     }
 }
 
-export async function getFilePreview(fileId: string) {
-    try {
-        const fileUrl = storage.getFilePreview(
-            appwriteConfig.storageId,
-            fileId,
-            2000,
-            2000,
-            "top",
-            100,
-        )
-        console.log("File URL from pervoew:", fileUrl);
-        return fileUrl;
-    } catch (error) {
-        console.log(error);
-    }
+// export function getFilePreview(fileId: string) {
+//     try {
+//         const fileUrl = storage.getFilePreview(
+//             appwriteConfig.storageId,
+//             fileId,
+//             2000,
+//             2000,
+//             "top",
+//             100,
+//         )
+//         console.log("File URL from pervoew:", fileUrl);
+//         return fileUrl;
+//     } catch (error) {
+//         console.log(error);
+//     }
 
+// }
+export function getFileUrl(fileId: string) {
+  const fileUrl = storage.getFileView(
+    appwriteConfig.storageId,
+    fileId
+  );
+
+  return fileUrl.href;
 }
 
 export async function deleteFile(fileId: string) {
@@ -213,3 +220,20 @@ export async function deleteFile(fileId: string) {
         console.log(error);
     }
 }
+
+export async function getRecentPosts() {
+     const posts =  await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.orderDesc('$createdAt'), Query.limit(20)]
+     )
+     if(!posts) throw Error;
+
+     return posts;
+     
+}
+
+
+
+
+
