@@ -216,7 +216,7 @@ export async function deleteFile(fileId: string) {
             fileId
         )
         return { status: 'okay' };
-    } catch (error) {
+    } catch (error) { 
         console.log(error);
     }
 }
@@ -233,7 +233,64 @@ export async function getRecentPosts() {
      
 }
 
+export async function likedPost(postId: string, likesArray:string[]) {
+    try {
+        const updatedPost = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId,
+            {
+             likes: likesArray   
+            }
+        )
 
+        if(!updatedPost) throw Error;
 
+        return updatedPost;
 
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
 
+export async function savePost(postId: string, userId: string) {
+    try {
+        const updatedPost = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savesCollectionId,
+            ID.unique(),
+            {
+             user:  userId,
+             post: postId
+            }
+        )
+
+        if(!updatedPost) throw Error;
+
+        return updatedPost;
+
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
+export async function deleteSavedPost(savedRecordId: string) {
+    try {
+        const statusCode = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savesCollectionId,
+            savedRecordId,
+            
+        )
+
+        if(!statusCode) throw Error;
+
+        return { status: 'okay' };
+
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
