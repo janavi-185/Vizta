@@ -22,8 +22,7 @@ type PostFormProps = {
 
 const PostForm = ({ post }: PostFormProps) => {
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
+  const { mutateAsync: createPost, isPending: _isLoadingCreate } = useCreatePost();
   const { user } = useUserContext();
   const navigate = useNavigate();
 
@@ -35,7 +34,7 @@ const PostForm = ({ post }: PostFormProps) => {
       caption: post ? post?.caption : "",
       file: [],
       location: post ? post?.location : '',
-      tags: post? post.Tags.join(",") :'',
+      tags: post ? post.Tags.join(",") : '',
     },
   });
 
@@ -47,8 +46,8 @@ const PostForm = ({ post }: PostFormProps) => {
       userId: user.id,
     })
 
-    if(!newPost){
-      toast('Please try again!',{
+    if (!newPost) {
+      toast('Please try again!', {
         description: 'Post creation failed.'
       })
     }
@@ -123,11 +122,11 @@ const PostForm = ({ post }: PostFormProps) => {
           <Button type="button"
             variant='outline'
             className="whitespace-nowrap border  rounded-sm border-border p-5"
-             >
+          >
             Cancel
           </Button>
           <Button
-            type="submit" 
+            type="submit"
             className="text-foreground p-5 rounded-sm">
             Submit
           </Button>

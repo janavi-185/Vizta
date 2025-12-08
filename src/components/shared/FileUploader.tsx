@@ -9,18 +9,17 @@ type FileUploaderProps = {
 }
 
 
-const FileUploader = ({fieldChange, mediaUrl}: FileUploaderProps) =>  
-{
+const FileUploader = ({ fieldChange, mediaUrl: _mediaUrl }: FileUploaderProps) => {
     const [file, setFile] = useState<File[]>([]);
     const [fileUrl, setFileUrl] = useState('');
-     
+
     const onDrop = useCallback(
         (acceptedFiles: FileWithPath[]) => {
-        setFile(acceptedFiles);
-        fieldChange(acceptedFiles);
-        setFileUrl(URL.createObjectURL(acceptedFiles[0]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [file]);
+            setFile(acceptedFiles);
+            fieldChange(acceptedFiles);
+            setFileUrl(URL.createObjectURL(acceptedFiles[0]));
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [file]);
 
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -35,9 +34,9 @@ const FileUploader = ({fieldChange, mediaUrl}: FileUploaderProps) =>
             <input {...getInputProps()} className='cursor-pointer' />
             {
                 fileUrl ? (
-                    
+
                     <>
-                    
+
                         <div className='flex flex-1 justify-center w-full p-5 lg:p-10'>
                             <img
                                 src={fileUrl}
