@@ -34,8 +34,8 @@ export type INewPost = {
 export type IUpdatePost = {
   postId: string;
   caption: string;
-  imageId: string;
-  imageUrl: URL;
+  imageid: string;
+  Image: URL;
   file: File[];
   location?: string;
   tags?: string;

@@ -1,5 +1,5 @@
 import { ID, Query } from 'appwrite';
-import type { INewPost, INewUser } from '@/types';
+import type { INewPost, INewUser, IUpdatePost } from '@/types';
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 
 export async function createUserAccount(user: INewUser) {
@@ -261,8 +261,8 @@ export async function savePost(postId: string, userId: string) {
             appwriteConfig.savesCollectionId,
             ID.unique(),
             {
-             user: userId,
-            post: postId
+                user: userId,
+                post: postId
             }
         )
 
@@ -285,7 +285,7 @@ export async function deleteSavedPost(savedRecordId: string) {
 
         )
 
-        if(!statusCode) throw Error;
+        if (!statusCode) throw Error;
 
         return { status: 'okay' };
 
@@ -310,4 +310,75 @@ export async function getPostById(postId:string) {
     }
 }
 
+export async function updatePost(post: IUpdatePost) {
+
+    const hasFileToUpdate = post.file.length > 0;
+
+    try {
+        let image = {
+            imageUrl: post.Image,
+            imageId: post.imageid,
+        }
+
+        if(hasFileToUpdate){
+            const uploadedFile = await uploadFile(post.file[0]);
+            if(!uploadedFile) throw Error;
+
+            const fileUrl = getFileUrl(uploadedFile.$id);
+            if (!fileUrl) {
+                deleteFile(uploadedFile.$id);
+                console.log("File URL not found");
+                throw Error;
+            }
+
+            image = { ...image, imageUrl: new URL(fileUrl), imageId: uploadedFile.$id }
+            console.log("Image after update:", image);
+        }
+
+        const tags = post.tags?.replace(/ /g, '').split(',') || [];
+
+
+        //create post in db
+        const updatedPost = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            post.postId,
+            {
+                caption: post.caption,
+                Image: image.imageUrl,
+                imageid: image.imageId,
+                location: post.location,
+                Tags: tags,
+            }
+
+        )
+
+        if (!updatedPost) {
+            await deleteFile(post.imageid);
+            throw Error;
+
+        }
+        return updatedPost;
+
+    } catch (error) {
+        console.log("Error creating post:", error);
+        console.log(error);
+    }
+
+}
+
+export async function deletePost(postId:string, imageid:string) {
+    if(!postId || imageid) throw Error;
+    try {
+        await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId
+        )
+        return { status: 'okay' }; 
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
 

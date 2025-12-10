@@ -11,19 +11,20 @@ import type { Models } from "appwrite"
 import { useUserContext } from "@/context/AuthContext"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
-import { useCreatePost } from "@/lib/react-query/queriesAndMutations"
+import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutations"
 
 
 
 type PostFormProps = {
   post?: Models.Document;
-  action?: "create" | "update";
+  action?: "Create" | "Update";
 
 }
 
 const PostForm = ({ post, action }: PostFormProps) => {
 
   const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
+  const { mutateAsync: updatePost, isPending: isLoadingUpdate } = useUpdatePost();
   const { user } = useUserContext();
   const navigate = useNavigate();
 
@@ -42,6 +43,23 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof PostValidation>) {
+
+    if(post && action === 'Update'){
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        Image: post?.Image,
+        imageid: post?.imageid,
+      })
+
+      if(!updatedPost){
+        toast('Please try again!', {
+          description: 'Post update failed.'
+        })
+      }
+      return navigate(`/posts/${post.$id}`);
+    }
+
     const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -83,8 +101,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
-                  mediaUrl={post?.mediaUrl}
-
+                  mediaUrl={post?.Image}
                 />
               </FormControl>
               <FormMessage className="text-red !important" />
@@ -131,8 +148,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
           </Button>
           <Button
             type="submit"
-            className="text-foreground p-5 rounded-sm">
-            Submit
+            className="text-foreground p-5 rounded-sm"
+            disabled={isLoadingCreate || isLoadingUpdate}
+          >
+            {isLoadingCreate || isLoadingUpdate && 'Creating...'}
+            {action} Post
           </Button>
         </div>
 
