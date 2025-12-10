@@ -17,12 +17,13 @@ import { useCreatePost } from "@/lib/react-query/queriesAndMutations"
 
 type PostFormProps = {
   post?: Models.Document;
+  action?: "create" | "update";
 
 }
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
 
-  const { mutateAsync: createPost, isPending: _isLoadingCreate } = useCreatePost();
+  const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
   const { user } = useUserContext();
   const navigate = useNavigate();
 
@@ -54,6 +55,8 @@ const PostForm = ({ post }: PostFormProps) => {
 
     navigate('/');
   }
+
+  console.log(post?.Image);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-full gap-9 max-w-5xl">
@@ -81,6 +84,7 @@ const PostForm = ({ post }: PostFormProps) => {
                 <FileUploader
                   fieldChange={field.onChange}
                   mediaUrl={post?.mediaUrl}
+
                 />
               </FormControl>
               <FormMessage className="text-red !important" />
