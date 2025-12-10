@@ -26,3 +26,8 @@ export const formatTimeAgo = (timestamp: string) => {
 
   return format(date, "MMMM d, yyyy");
 };
+
+
+export const checkIsLiked = (likeList: string[], userId: string) => {
+  return likeList.includes(userId);
+};
