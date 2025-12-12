@@ -392,7 +392,7 @@ export async function deletePost(postId: string, imageid: string) {
 //explorepage
 
 export async function getInfinitePost({ pageParam }: { pageParam: number }) {
-    const queries: any[] = [Query.orderDesc(`$updateAt`), Query.limit(10)]
+    const queries: any[] = [Query.orderDesc(`$updatedAt`), Query.limit(10)]
 
     if (pageParam) {
         queries.push(Query.cursorAfter(pageParam.toString()));

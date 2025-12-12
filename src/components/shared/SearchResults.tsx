@@ -1,5 +1,11 @@
+import type { Models } from "appwrite";
 
-const SearchResults = () => {
+type SearchResultProps = {
+    isSearchFetching: boolean;
+    searchedPost: Models.Document[];
+}
+
+const SearchResults = ({isSearchFetching, searchedPost}: SearchResultProps) => {
   return (
     <div>
       
