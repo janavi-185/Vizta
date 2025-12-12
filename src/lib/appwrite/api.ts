@@ -1,6 +1,7 @@
 import { ID, Query } from 'appwrite';
 import type { INewPost, INewUser, IUpdatePost } from '@/types';
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { number } from 'zod';
 
 export async function createUserAccount(user: INewUser) {
 
@@ -233,7 +234,9 @@ export async function getRecentPosts() {
 
 }
 
-export async function likedPost(postId: string, likesArray:string[]) {
+//like post 
+
+export async function likedPost(postId: string, likesArray: string[]) {
     try {
         const updatedPost = await databases.updateDocument(
             appwriteConfig.databaseId,
@@ -276,6 +279,8 @@ export async function savePost(postId: string, userId: string) {
 
 }
 
+//delete post
+
 export async function deleteSavedPost(savedRecordId: string) {
     try {
         const statusCode = await databases.deleteDocument(
@@ -295,7 +300,7 @@ export async function deleteSavedPost(savedRecordId: string) {
 
 }
 
-export async function getPostById(postId:string) {
+export async function getPostById(postId: string) {
     try {
         const post = await databases.getDocument(
             appwriteConfig.databaseId,
@@ -310,6 +315,8 @@ export async function getPostById(postId:string) {
     }
 }
 
+//update post
+
 export async function updatePost(post: IUpdatePost) {
 
     const hasFileToUpdate = post.file.length > 0;
@@ -320,9 +327,9 @@ export async function updatePost(post: IUpdatePost) {
             imageId: post.imageid,
         }
 
-        if(hasFileToUpdate){
+        if (hasFileToUpdate) {
             const uploadedFile = await uploadFile(post.file[0]);
-            if(!uploadedFile) throw Error;
+            if (!uploadedFile) throw Error;
 
             const fileUrl = getFileUrl(uploadedFile.$id);
             if (!fileUrl) {
@@ -367,18 +374,55 @@ export async function updatePost(post: IUpdatePost) {
 
 }
 
-export async function deletePost(postId:string, imageid:string) {
-    if(!postId || imageid) throw Error;
+export async function deletePost(postId: string, imageid: string) {
+    if (!postId || imageid) throw Error;
     try {
         await databases.deleteDocument(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
             postId
         )
-        return { status: 'okay' }; 
-        
+        return { status: 'okay' };
+
     } catch (error) {
         console.log(error);
     }
 }
 
+//explorepage
+
+export async function getInfinitePost({ pageParam }: { pageParam: number }) {
+    const queries: any[] = [Query.orderDesc(`$updateAt`), Query.limit(10)]
+
+    if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam.toString()));
+    }
+
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            queries,
+        )
+
+        if (!posts) throw Error;
+        return posts;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function searchPosts(searchTerm: string) {
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            [Query.search('caption', searchTerm)],
+        )
+
+        if (!posts) throw Error;
+        return posts;
+    } catch (error) {
+        console.log(error)
+    }
+}

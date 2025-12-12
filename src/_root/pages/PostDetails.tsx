@@ -1,7 +1,6 @@
 import Loader from "@/components/shared/Loader";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations"
-import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { formatTimeAgo } from '@/lib/utils'
 import { useUserContext } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
