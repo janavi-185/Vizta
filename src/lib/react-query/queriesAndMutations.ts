@@ -151,7 +151,7 @@ export const useDeletePost = () => {
     })
 }
 
-export const useGetPost = () => {
+export const useGetPosts = () => {
     return useInfiniteQuery({
         queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
         queryFn: getInfinitePost,
@@ -167,7 +167,7 @@ export const useGetPost = () => {
 
 export const useSearchPosts = (searchTerm: string) =>{
     return useQuery({
-        queryKey: [QUERY_KEYS.SEARCH_POSTS],
+        queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
         queryFn: () => searchPosts(searchTerm),
         enabled: !!searchTerm
     })
