@@ -18,7 +18,7 @@ const LeftSidebar = () => {
 
   return (
 
-    <nav className='hidden sm:flex px-6 py-10 flex-col justify-between min-w-[270px]'>
+    <nav className='hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px]'>
       <div className='flex flex-col gap-11'>
         <Link to='/' className='flex gap-3 items-center'>
           <img
@@ -47,7 +47,7 @@ const LeftSidebar = () => {
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
             return (
-              <li key={link.label} className={`rounded-lg hover:bg-primary hover:text-white transition group ${isActive && 'bg-primary'}`}>
+              <li key={link.label} className={`rounded-lg hover:bg-accent-foreground/70 hover:text-white transition group ${isActive && 'bg-accent-foreground/70'}`}>
                 <NavLink
                   to={link.route}
                   className='flex gap-4 items-center p-4 transition'
