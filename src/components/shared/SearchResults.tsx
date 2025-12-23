@@ -11,9 +11,9 @@ const SearchResults = ({isSearchFetching, searchedPost}: SearchResultProps) => {
 
     if(isSearchFetching) return <Loader/>
 
-    if(searchedPost && searchedPost.documents.length > 0) {
+    if(searchedPost && searchedPost.length > 0) {
         return (
-            <GridPostList posts={searchedPost.documents} />
+            <GridPostList posts={searchedPost} />
         )
     }
 

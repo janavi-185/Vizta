@@ -12,12 +12,10 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps ) => {
 
-    // console.log('post in postcard:', post);
     const { user } = useUserContext();
 
-
   return (
-    <div className="bg-muted rounded-3xl border border-border p-5 lg:p-7 w-full max-w-screen-sm;">
+    <div className="bg-accent/15 rounded-3xl border border-border p-5 lg:p-7 w-full max-w-screen-sm;">
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
                 <Link to={`/profile/${post.creator.$id}`}>

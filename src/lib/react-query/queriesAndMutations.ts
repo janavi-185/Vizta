@@ -4,7 +4,7 @@ import {
     useQuery,
     useQueryClient,
 } from '@tanstack/react-query';
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePost, getPostById, getRecentPosts, likedPost, savePost,  searchPosts, signInAccount, signOutAccount, updatePost } from '../appwrite/api';
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePost, getPostById, getRecentPosts, likedPost, savePost, searchPosts, signInAccount, signOutAccount, updatePost } from '../appwrite/api';
 import type { INewPost, INewUser, IUpdatePost } from '@/types';
 import { QUERY_KEYS } from './queryKeys';
 
@@ -165,7 +165,7 @@ export const useGetPosts = () => {
     })
 }
 
-export const useSearchPosts = (searchTerm: string) =>{
+export const useSearchPosts = (searchTerm: string) => {
     return useQuery({
         queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
         queryFn: () => searchPosts(searchTerm),
