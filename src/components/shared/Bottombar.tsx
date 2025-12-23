@@ -6,13 +6,28 @@ import { Link, useLocation } from "react-router-dom"
 const Bottombar = () => {
   const { pathname } = useLocation();
   return (
-    <section className="z-50 flex justify-between items-center w-full sticky bottom-0  rounded-xl bg-accent/30 backdrop-blur-2xl px-5 py-4 sm:hidden">
+    <section className="fixed
+      bottom-3
+      left-1/2
+      -translate-x-1/2
+      z-50
+      flex
+      justify-between
+      items-center
+      w-full
+      max-w-md
+      rounded-full
+      bg-accent/30
+      backdrop-blur-2xl
+      px-5
+      py-3
+      md:hidden">
       {bottombarLinks.map((link) => {
         const isActive = pathname === link.route;
         return (
           <Link 
             to={link.route}
-            key={link.label} className={`flex px-7 items-center flex-col justify-center ${isActive && 'bg-accent-foreground/80 rounded-[10px] p-2 gap-1 transition'}`}
+            key={link.label} className={`flex px-4 items-center flex-col justify-center ${isActive && 'bg-accent-foreground/70 rounded-3xl p-2 gap-1 transition'}`}
           >
             <img
               src={link.imgURL}
