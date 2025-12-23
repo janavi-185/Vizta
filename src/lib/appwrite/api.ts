@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite';
 import type { INewPost, INewUser, IUpdatePost } from '@/types';
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { number } from 'zod';
+// import { number } from 'zod';
 
 export async function createUserAccount(user: INewUser) {
 
@@ -392,7 +392,7 @@ export async function deletePost(postId: string, imageid: string) {
 //explorepage
 
 export async function getInfinitePost({ pageParam }: { pageParam: number }) {
-    const queries: any[] = [Query.orderDesc(`$updatedAt`), Query.limit(10)]
+    const queries: string[] = [Query.orderDesc(`$updatedAt`), Query.limit(10)]
 
     if (pageParam) {
         queries.push(Query.cursorAfter(pageParam.toString()));
@@ -425,4 +425,10 @@ export async function searchPosts(searchTerm: string) {
     } catch (error) {
         console.log(error)
     }
+}
+
+
+export async function getSavedPosts(userId: string) {
+
+    
 }

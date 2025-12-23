@@ -39,7 +39,7 @@ const PostDetails = () => {
                     </p>
                     <div className="flex items-center justify-center gap-2 text-foreground/50">
                     <p className="text-[12px] font-semibold leading-[140%] lg:text-[12px] lg:font-semibold ">
-                        {formatTimeAgo(post?.$createdAt)}
+                        {post && formatTimeAgo(post?.$createdAt)}
                     </p>
                     - 
                     <p className="text-[12px] font-semibold leading-[140%] lg:text-[12px] lg:font-semibold">

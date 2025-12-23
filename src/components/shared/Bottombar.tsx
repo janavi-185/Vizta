@@ -12,7 +12,7 @@ const Bottombar = () => {
         return (
           <Link 
             to={link.route}
-            key={link.label} className={`flex px-7 items-center flex-col justify-center ${isActive && 'bg-primary/80 rounded-[10px] p-2 gap-1 transition'}`}
+            key={link.label} className={`flex px-7 items-center flex-col justify-center ${isActive && 'bg-accent-foreground/80 rounded-[10px] p-2 gap-1 transition'}`}
           >
             <img
               src={link.imgURL}
