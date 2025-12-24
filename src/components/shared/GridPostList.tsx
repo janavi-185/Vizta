@@ -9,7 +9,7 @@ type GridPostListProps = {
   showStats?: boolean,
 }
 const GridPostList = ({posts, showUser = true, showStats = true}: GridPostListProps ) => {
-    const {user} = useUserContext();
+    const { user } = useUserContext();
 
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">

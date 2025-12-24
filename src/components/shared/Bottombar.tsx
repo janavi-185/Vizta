@@ -17,7 +17,7 @@ const Bottombar = () => {
       w-full
       max-w-md
       rounded-full
-      bg-accent/30
+      bg-secondary/30
       backdrop-blur-2xl
       px-5
       py-3

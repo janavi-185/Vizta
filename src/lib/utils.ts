@@ -11,6 +11,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
+
+
 export const formatTimeAgo = (timestamp: string) => {
   const date = parseISO(timestamp);
   const now = new Date();
@@ -31,3 +34,4 @@ export const formatTimeAgo = (timestamp: string) => {
 export const checkIsLiked = (likeList: string[], userId: string) => {
   return likeList.includes(userId);
 };
+

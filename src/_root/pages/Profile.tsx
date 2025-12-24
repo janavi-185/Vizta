@@ -82,7 +82,7 @@ const Profile = () => {
             <div className={`${user.id !== currentUser.$id && "hidden"}`}>
               <Link
                 to={`/update-profile/${currentUser.$id}`}
-                className={`h-12 bg px-5 bg-accent hover:bg-accent-foreground/40 text-foreground/90 flex justify-center items-center gap-2 rounded-lg ${
+                className={`h-12 bg px-5 bg-secondary/50 hover:bg-accent-foreground/40 text-foreground/90 flex justify-center items-center gap-2 transition-all rounded-lg ${
                   user.id !== currentUser.$id && "hidden"
                 }`}>
                 <img
@@ -109,8 +109,8 @@ const Profile = () => {
         <div className="flex max-w-5xl w-full">
           <Link
             to={`/profile/${id}`}
-            className={`flex justify-center items-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial rounded-l-lg ${
-              pathname === `/profile/${id}` && "!bg-dark-3"
+            className={`flex justify-center items-center gap-3 py-4 w-48 bg-secondary/10 transition flex-1 xl:flex-initial rounded-l-lg ${
+              pathname === `/profile/${id}` && "bg-secondary/50"
             }`}>
             <img
               src={"/assets/icons/posts.svg"}
@@ -122,8 +122,8 @@ const Profile = () => {
           </Link>
           <Link
             to={`/profile/${id}/liked-posts`}
-            className={`flex justify-center items-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial rounded-r-lg ${
-              pathname === `/profile/${id}/liked-posts` && "!bg-dark-3"
+            className={`flex justify-center items-center gap-3 py-4 w-48 bg-secondary/10 transition flex-1 xl:flex-initial rounded-r-lg ${
+              pathname === `/profile/${id}/liked-posts` && "bg-secondary/50"
             }`}>
             <img
               src={"/assets/icons/like.svg"}
@@ -139,7 +139,7 @@ const Profile = () => {
       <Routes>
         <Route
           index
-          element={<GridPostList posts={currentUser.posts} showUser={false} />}
+          element={<GridPostList posts={currentUser.posts} showUser={false} showStats={false} />}
         />
         {currentUser.$id === user.id && (
           <Route path="/liked-posts" element={<LikedPost />} />
