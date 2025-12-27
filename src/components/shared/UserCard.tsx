@@ -8,7 +8,7 @@ type UserCardProps = {
 };
 
 const UserCard = ({ user }: UserCardProps) => {
-  console.log("useCard Called!")
+  console.log("useCard Called!", user)
   return (
     <Link to={`/profile/${user.$id}`} className="flex justify-center items-center flex-col gap-4 border border-border rounded-2xl px-5 py-8">
       <img

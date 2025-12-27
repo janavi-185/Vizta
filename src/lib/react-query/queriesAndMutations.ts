@@ -4,7 +4,7 @@ import {
     useQuery,
     useQueryClient,
 } from '@tanstack/react-query';
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePost, getPostById, getRecentPosts, likedPost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, getUsers, updateUser, getUserById } from '../appwrite/api';
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePost, getPostById, getRecentPosts, likedPost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, getUsers, updateUser, getUserById, getInfinitePosts } from '../appwrite/api';
 import type { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types';
 import { QUERY_KEYS } from './queryKeys';
 
@@ -79,7 +79,7 @@ export const useSavePost = () => {
 
     return useMutation({
         mutationFn: ({ postId, userId }: { postId: string, userId: string }) => savePost(postId, userId),
-        onSuccess: (data) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
             })
@@ -95,23 +95,22 @@ export const useSavePost = () => {
 }
 
 export const useDeleteSavedPost = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-            })
-            queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_POSTS],
-            })
-            queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-            })
-        }
-    })
-}
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
 
 export const useGetCurrentUser = () => {
     return useQuery({
@@ -144,7 +143,7 @@ export const useDeletePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ postId, imageId }: { postId: string, imageId: string }) => deletePost(postId, imageId),
-        onSuccess: (data) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_POST_BY_ID],
             })
@@ -153,9 +152,10 @@ export const useDeletePost = () => {
 }
 
 export const useGetPosts = () => {
+
     return useInfiniteQuery({
         queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
-        queryFn: getInfinitePost,
+        queryFn: getInfinitePosts,
         getNextPageParam: (lastpage) => {
             if (lastpage && lastpage.documents.length === 0) return null;
 
@@ -167,17 +167,17 @@ export const useGetPosts = () => {
 }
 
 export const useSearchPosts = (searchTerm: string) => {
-    return useQuery({
-        queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
-        queryFn: () => searchPosts(searchTerm),
-        enabled: !!searchTerm
-    })
-}
+  return useQuery({
+    queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
+    queryFn: () => searchPosts(searchTerm),
+    enabled: !!searchTerm,
+  });
+};
 
-export const useGetUsers = () => {
+export const useGetUsers = (limit?: number) => {
     return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
-    queryFn: () => getUsers(),
+    queryFn: () => getUsers(limit),
   });
 }
 

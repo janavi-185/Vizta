@@ -24,12 +24,10 @@ import { useUserContext } from '@/context/AuthContext'
 const SignupForm = () => {
 
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
 
   // 1. Define your form.
@@ -42,14 +40,18 @@ const SignupForm = () => {
       password: "",
     },
   })
+
+  
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     const newUser = await createUserAccount(values);
+
     console.log(newUser);
 
     if (!newUser) {
       return toast("Sign Up failed. Please try again.", {
-        description: "There was an issue while creating your account.",
+        description: "There was an issue while creating your account. user already exists!",
       })
     }
 
@@ -72,7 +74,8 @@ const SignupForm = () => {
       form.reset();
       navigate('/');
     } else {
-      return toast("Authentication failed, try again")
+      return toast("Authentication failed, try again");
+      
     }
   }
 
@@ -139,15 +142,15 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">
-            {isCreatingAccount ? (
+          <Button type="submit" className='bg-accent-foreground hover:bg-accent-foreground/80 text-white/80'>
+            {isSigningIn || isUserLoading || isCreatingAccount ? (
               <div className='flex justify-center items-center gap-2'>
                 <Loader />
                 Loading...
               </div>
             ) : "Sign Up"}
           </Button>
-          <p className='text-center '>Already have account?<Link to='/sign-in' className='text-primary hover:cursor-pointer ml-1' >
+          <p className='text-center '>Already have account?<Link to='/sign-in' className='text-accent-foreground hover:cursor-pointer ml-1' >
             Login
           </Link></p>
         </form>

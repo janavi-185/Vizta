@@ -390,26 +390,26 @@ export async function deletePost(postId: string, imageid: string) {
 }
 
 //explorepage
+export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
+  const queries: string[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
 
-export async function getInfinitePost({ pageParam }: { pageParam: number }) {
-    const queries: string[] = [Query.orderDesc(`$updatedAt`), Query.limit(10)]
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()));
+  }
 
-    if (pageParam) {
-        queries.push(Query.cursorAfter(pageParam.toString()));
-    }
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      queries
+    );
 
-    try {
-        const posts = await databases.listDocuments(
-            appwriteConfig.databaseId,
-            appwriteConfig.postCollectionId,
-            queries,
-        )
+    if (!posts) throw Error;
 
-        if (!posts) throw Error;
-        return posts;
-    } catch (error) {
-        console.log(error)
-    }
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function searchPosts(searchTerm: string) {
