@@ -6,13 +6,6 @@ import {
   useParams,
   useLocation,
 } from "react-router-dom";
-
-// import { Button } from "@/components/ui";
-// import { LikedPosts } from "@/_root/pages";
-// import { useUserContext } from "@/context/AuthContext";
-// import { useGetUserById } from "@/lib/react-query/queries";
-// import { GridPostList, Loader } from "@/components/shared";
-
 import { Button } from "@/components/ui/button";
 import LikedPost from "./LikedPost";
 import { useUserContext } from "@/context/AuthContext";
@@ -57,7 +50,7 @@ const Profile = () => {
             alt="profile"
             className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
           />
-          <div className="flex flex-col flex-1 justify-between md:mt-2">
+          <div className="flex w-full flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">
               <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full">
                 {currentUser.name}
@@ -67,7 +60,7 @@ const Profile = () => {
               </p>
             </div>
 
-            <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
+            <div className="flex gap-8 w-full mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
               <StatBlock value={currentUser.posts.length} label="Posts" />
               <StatBlock value={20} label="Followers" />
               <StatBlock value={20} label="Following" />
@@ -78,7 +71,7 @@ const Profile = () => {
             </p>
           </div>
 
-          <div className="flex justify-end w-full gap-4">
+          <div className="flex justify-end gap-4">
             <div className={`${user.id !== currentUser.$id && "hidden"}`}>
               <Link
                 to={`/update-profile/${currentUser.$id}`}

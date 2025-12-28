@@ -20,8 +20,17 @@ const LeftSidebar = () => {
 
     <nav className='hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px]'>
       <div className='flex flex-col gap-11'>
-        <Link to='/' className='flex gap-3 items-center'>
-          <p className='h2-bold'>Vizta</p>
+        <Link to='/' className='flex gap-3  items-center'>
+          <div className="flex items-center group cursor-pointer select-none">
+          {/* <div className="relative flex items-center justify-center w-10 h-10 mr-2">
+            <div className="absolute inset-0 bg-indigo-200 rounded-xl rotate-6 group-hover:rotate-70 transition-transform duration-300 opacity-40"></div>
+            <div className="absolute inset-0 bg-indigo-500 rounded-xl -rotate-6 group-hover:-rotate-70 transition-transform duration-300"></div>
+            <span className="relative text-white font-bold text-xl">V</span>
+            </div> */}
+            <h1 className="text-4xl tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="font-extrabold tracking-wider text-indigo-500 group-hover:text-indigo-400 transition-colors italic">Vizta</span>
+            </h1>
+        </div> 
         </Link>
         <Link to={`profile/${user.id}`} className='flex gap-3 items-center'>
           <img

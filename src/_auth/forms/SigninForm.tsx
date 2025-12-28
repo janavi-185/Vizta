@@ -65,7 +65,16 @@ const SigninForm = () => {
   return (
     <Form {...form}>
       <div className='sm:w-auto flex flex-col justify-center items-center'>
-        <img src="/assets/images/logo.svg" alt="image" />
+        <div className="flex items-center group cursor-pointer select-none">
+          <div className="relative flex items-center justify-center w-10 h-10 mr-2">
+            <div className="absolute inset-0 bg-indigo-200 rounded-xl rotate-6 group-hover:rotate-70 transition-transform duration-300 opacity-40"></div>
+            <div className="absolute inset-0 bg-indigo-500 rounded-xl -rotate-6 group-hover:-rotate-70 transition-transform duration-300"></div>
+            <span className="relative text-white font-bold text-xl">V</span>
+            </div>
+            <h1 className="text-4xl tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="font-extrabold italic tracking-wider text-indigo-500 group-hover:text-indigo-400 transition-colors">Vizta</span>
+            </h1>
+        </div>
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12 '>Log in to Your account</h2>
         <p className='text-[14px] font-medium leading-[140%] md:text-[16px] md:font-normal md:leading-[140%]'>To Use Something Enter your account details..</p>
 
@@ -104,7 +113,7 @@ const SigninForm = () => {
                 <Loader />
                 Loading...
               </div>
-            ) : "Sign Up"}
+            ) : "Sign In"}
           </Button>
           <p className='text-center '>Don't have account?<Link to='/sign-up' className='text-accent-foreground hover:cursor-pointer ml-1' >
             Sign up

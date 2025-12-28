@@ -11,13 +11,15 @@ const AuthLayout = () => {
       ) : (
         <>
           <section className='flex flex-1 justify-center items-center flex-col p-10'>
+            <div className='w-auto border rounded-2xl px-15 py-9'>
             <Outlet />
+            </div>
           </section>
-          <img
+          {/* <img
             src='/auth-background.png'
             alt='Auth Background'
             className='hidden bg-amber-200 lg:block md:w-1/2 object-cover'
-          />
+          /> */}
 
         </>
       )

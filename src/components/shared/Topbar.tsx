@@ -25,7 +25,16 @@ const Topbar = () => {
             width={130}
             height={325}
           /> */}
-          <p className='h2-bold'>Vizta</p>
+          <div className="flex items-center group cursor-pointer select-none">
+          <div className="relative flex items-center justify-center w-8 h-8 mr-2">
+            <div className="absolute inset-0 bg-indigo-300 rounded-lg rotate-6 group-hover:rotate-70 transition-transform duration-300 opacity-40"></div>
+            <div className="absolute inset-0 bg-indigo-500 rounded-xl -rotate-6 group-hover:-rotate-70 transition-transform duration-300"></div>
+            <span className="relative text-white font-bold text-xl">V</span>
+          </div>
+            <h1 className="text-2xl tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="font-extrabold tracking-wider italic text-indigo-500 group-hover:text-indigo-400 transition-colors">Vizta</span>
+            </h1>
+        </div> 
 
         </Link>
 

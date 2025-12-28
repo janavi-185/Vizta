@@ -181,7 +181,7 @@ body {
 .h2-bold {
   @apply text-[30px] font-bold leading-[140%] tracking-widest;
 }
-
+ 
 .h3-bold {
   @apply text-[24px] font-bold leading-[140%] tracking-tighter;
 }
