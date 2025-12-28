@@ -31,12 +31,12 @@ const Home = () => {
       </div>
     );
   }
-
+//su thayu ena thi?
   return (
-    <div className='flex  overflow-scroll xl:flex-row flex-1 flex-col'>
-      <div className='flex  flex-col flex-1 items-center gap-10 py-10 px-5 md:px-8 lg:p-14  '>
-        <div className="max-w-screen-sm  flex flex-col items-center w-full gap-6 md:gap-9">
-          <h2 className="h3-bold md:h2-bold  text-left w-full">Home Feed</h2>
+    <div className='flex overflow-scroll xl:flex-row flex-1 flex-col'>
+      <div className='flex flex-col flex-1 items-center gap-10 py-10 px-5 xl:w-3/4 md:px-8 lg:p-14  '>
+        <div className="max-w-screen-sm flex flex-col items-center w-full gap-6 md:gap-9">
+          <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
           {isPostLoading && !posts ? (
             <Loader />
           ) : (
@@ -48,13 +48,13 @@ const Home = () => {
           )}
         </div>
       </div> 
-      <div className="xl:flex flex-col md:w-full xl:w-72 2xl:w-465 px-6 py-10 gap-10 ">
+      <div className="xl:flex flex-col md:w-full xl:w-1/4 px-6 py-10 gap-10 ">
           <div className="max-w-screen-sm lg:pl-35 xl:p-0 flex flex-col items-center w-full gap-6 md:gap-9">
           <h3 className="h3-bold md:h2-bold text-left w-full text-foreground">Top Creators</h3>
           {isUserLoading && !creators ? (
             <Loader />
           ) : ( 
-            <ul className="flex xl:flex-col flex-1  gap-9 w-full">
+            <ul className="flex flex-col sm:flex-row xl:flex-col flex-1  gap-9 w-full">
               {creators?.documents.map((creator) => (
                 <li key={creator?.$id} className="w-full ">
                   <UserCard user={creator} />
