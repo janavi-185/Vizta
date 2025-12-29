@@ -434,7 +434,6 @@ export async function getUsers(limit?: number) {
   if (limit) {
     queries.push(Query.limit(limit));
   }
-  console.log(limit);
   try {
     const users = await databases.listDocuments(
       appwriteConfig.databaseId,
