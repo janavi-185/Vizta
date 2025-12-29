@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import LikedPost from "./LikedPost";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
+import { useGetUserById, useGetFollowCounts } from "@/lib/react-query/queriesAndMutations";
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 import FollowButton from "@/components/ui/FollowButton";
@@ -31,8 +31,8 @@ const Profile = () => {
   const { pathname } = useLocation();
 
   const { data: currentUser } = useGetUserById(id || "");
+  const { data: followCounts, isLoading } = useGetFollowCounts(currentUser?.$id || "");
 
-  // console.log("currentUser", currentUser);
   if (!currentUser)
     return (
       <div className="flex-center w-full h-full">
@@ -61,15 +61,23 @@ const Profile = () => {
               </p>
             </div>
 
-            <div className="flex gap-8 w-full mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
-              <StatBlock value={currentUser.posts.length} label="Posts" />
-              <StatBlock value={20} label="Followers" />
-              <StatBlock value={20} label="Following" />
-            </div>
-
-            <p className="text-[14px] font-medium leading-[140%] md:text-[16px] text-center xl:text-left mt-7 max-w-screen-sm">
+            <p className="text-md font-medium leading-[140%] md:text-lg text-center xl:text-left mt-7 max-w-screen-sm">
               {currentUser.bio}
             </p>
+            <div className="flex gap-8 w-full mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
+              <StatBlock
+                value={currentUser.posts.length}
+                label="Posts"
+              />
+              <StatBlock
+                value={isLoading ? "—" : followCounts?.followers ?? 0}
+                label="Followers"
+              />
+              <StatBlock
+                value={isLoading ? "—" : followCounts?.following ?? 0}
+                label="Following"
+              />
+            </div>
           </div>
 
           <div className="flex justify-end gap-4">

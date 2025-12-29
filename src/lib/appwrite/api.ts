@@ -578,22 +578,22 @@ export async function isFollowing(
   return res.total > 0;
 }
 
-// export async function getFollowCounts(userId: string) {
-//   const [followers, following] = await Promise.all([
-//     databases.listDocuments(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.followsCollectionId,
-//       [Query.equal("followingId", userId)]
-//     ),
-//     databases.listDocuments(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.followsCollectionId,
-//       [Query.equal("followerId", userId)]
-//     ),
-//   ]);
+export async function getFollowCounts(userId: string) {
+  const [followers, following] = await Promise.all([
+    databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.followsCollectionId,
+      [Query.equal("followingId", userId)]
+    ),
+    databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.followsCollectionId,
+      [Query.equal("followerId", userId)]
+    ),
+  ]);
 
-//   return {
-//     followers: followers.total,
-//     following: following.total,
-//   };
-// }
+  return {
+    followers: followers.total,
+    following: following.total,
+  };
+}

@@ -38,7 +38,9 @@ const FollowButton = ({ targetUserId }: { targetUserId: string }) => {
     <Button
       type="button"
       disabled={followMutation.isPending || unfollowMutation.isPending}
-     className="bg-accent-foreground hover:bg-accent-foreground/80 text-foreground flex gap-2 px-8"
+     className={isFollowing ? 
+        "bg-accent/70 hover:bg-accent-foreground/40 text-fore flex gap-2 px-5" :
+        "bg-accent-foreground hover:bg-accent-foreground/80 text-foreground flex gap-2 px-5"}
       onClick={() =>
         isFollowing
           ? unfollowMutation.mutate({ 

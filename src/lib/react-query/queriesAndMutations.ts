@@ -7,7 +7,7 @@ import {
 import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser , getPostById, getRecentPosts, likedPost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, getUsers, updateUser, getUserById, getInfinitePost, followUser, 
     unfollowUser, 
     isFollowing, 
-    // getFollowCounts 
+    getFollowCounts 
 } from '../appwrite/api';
 import type { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types';
 import { QUERY_KEYS } from './queryKeys';
@@ -220,14 +220,6 @@ export const useIsFollowing = (
   });
 };
 
-// export const useGetFollowCounts = (userId: string) => {
-//   return useQuery({
-//     queryKey: [QUERY_KEYS.GET_FOLLOW_COUNTS, userId],
-//     queryFn: () => getFollowCounts(userId),
-//     enabled: !!userId,
-//   });
-// };
-
 export const useFollowUser = (
     followerId: string,
     followingId: string
@@ -277,4 +269,10 @@ export const useUnfollowUser = (
   });
 };
 
-
+export const useGetFollowCounts = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FOLLOW_COUNTS, userId],
+    queryFn: () => getFollowCounts(userId),
+    enabled: !!userId,
+  });
+};
