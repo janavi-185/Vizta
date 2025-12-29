@@ -16,7 +16,7 @@ const GridPostList = ({posts, showUser = true, showStats = true}: GridPostListPr
 
       {posts.map((post) => (
         <li key={post.$id} className="relative min-w-80 h-80 list-none">
-          <Link to={`posts/${post.id}`} className="group flex rounded-3xl border border-border overflow-hidden cursor-pointer w-full h-full">
+          <Link to={`/posts/${post.$id}`} className="group flex rounded-3xl border border-border overflow-hidden cursor-pointer w-full h-full">
             <img
               src={post.Image}
               alt="post-img"
@@ -47,7 +47,7 @@ const GridPostList = ({posts, showUser = true, showStats = true}: GridPostListPr
                 <p>{post.creator.name}</p>
               </div>
             )}
-
+ 
             {showStats && <PostStats post={post} userId={user.id} />}
           </div>
         </li>

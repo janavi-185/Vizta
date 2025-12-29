@@ -48,7 +48,7 @@ const SigninForm = () => {
     if (!session) {
       console.log('session failed')
       return toast("Sign in failed", {
-        description: "There was an issue while signing you in.",
+        description: "There was an issue while signing you in. Make sure you have created an account!",
       })
     }
 
@@ -60,7 +60,7 @@ const SigninForm = () => {
     } else {
       return toast("Authentication failed, try again")
     }
-  }
+  } 
 
   return (
     <Form {...form}>

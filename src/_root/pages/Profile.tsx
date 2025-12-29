@@ -6,12 +6,12 @@ import {
   useParams,
   useLocation,
 } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import LikedPost from "./LikedPost";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
+import FollowButton from "@/components/ui/FollowButton";
 
 interface StabBlockProps {
   value: string | number;
@@ -32,6 +32,7 @@ const Profile = () => {
 
   const { data: currentUser } = useGetUserById(id || "");
 
+  // console.log("currentUser", currentUser);
   if (!currentUser)
     return (
       <div className="flex-center w-full h-full">
@@ -90,9 +91,10 @@ const Profile = () => {
               </Link>
             </div>
             <div className={`${user.id === id && "hidden"}`}>
-              <Button type="button" className="bg-accent-foreground hover:bg-accent-foreground/80 text-foreground flex gap-2 px-8">
-                Follow
-              </Button>
+              <FollowButton
+                targetUserId={currentUser.$id}
+              />
+              
             </div>
           </div>
         </div>

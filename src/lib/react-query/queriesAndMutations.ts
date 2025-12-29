@@ -4,7 +4,11 @@ import {
     useQuery,
     useQueryClient,
 } from '@tanstack/react-query';
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getPostById, getRecentPosts, likedPost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, getUsers, updateUser, getUserById, getInfinitePost } from '../appwrite/api';
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser , getPostById, getRecentPosts, likedPost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, getUsers, updateUser, getUserById, getInfinitePost, followUser, 
+    unfollowUser, 
+    isFollowing, 
+    // getFollowCounts 
+} from '../appwrite/api';
 import type { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types';
 import { QUERY_KEYS } from './queryKeys';
 
@@ -204,3 +208,73 @@ export const useUpdateUser = () => {
     },
   });
 };
+
+export const useIsFollowing = (
+  followerId: string,
+  followingId: string
+) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.IS_FOLLOWING, followerId, followingId],
+    queryFn: () => isFollowing(followerId, followingId),
+    enabled: !!followerId && !!followingId,
+  });
+};
+
+// export const useGetFollowCounts = (userId: string) => {
+//   return useQuery({
+//     queryKey: [QUERY_KEYS.GET_FOLLOW_COUNTS, userId],
+//     queryFn: () => getFollowCounts(userId),
+//     enabled: !!userId,
+//   });
+// };
+
+export const useFollowUser = (
+    followerId: string,
+    followingId: string
+) => {
+    const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      followerId,
+      followingId,
+    }: {
+      followerId: string;
+      followingId: string;
+    }) => followUser(followerId, followingId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.IS_FOLLOWING, followerId, followingId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_FOLLOW_COUNTS, followingId],
+      });
+    }
+  });
+}; 
+
+export const useUnfollowUser = (
+    followerId: string,
+    followingId: string
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      followerId,
+      followingId,
+    }: {
+      followerId: string;
+      followingId: string;
+    }) => unfollowUser(followerId, followingId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.IS_FOLLOWING, followerId, followingId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_FOLLOW_COUNTS, followingId],
+      });
+    },
+  });
+};
+
+

@@ -1,15 +1,14 @@
 import type { Models } from "appwrite";
 import { Link } from "react-router-dom";
-
-import { Button } from "../ui/button";
+import FollowButton from "../ui/FollowButton";
 
 type UserCardProps = {
   user: Models.Document;
 };
 
 const UserCard = ({ user }: UserCardProps) => {
-  console.log("useCard Called!", user)
-  return (
+  console.log("user in usercard:", user);
+    return (
     <Link to={`/profile/${user.$id}`} className="flex justify-center items-center flex-col gap-4 border border-border rounded-2xl px-5 py-8">
       <img
         src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
@@ -26,9 +25,9 @@ const UserCard = ({ user }: UserCardProps) => {
         </p>
       </div>
 
-      <Button type="button" size="sm" className="bg-accent-foreground hover:bg-accent-foreground/80 text-foreground flex gap-2 px-5">
-        Follow
-      </Button>
+      <FollowButton
+      targetUserId={user.$id}
+      />
     </Link>
   );
 };

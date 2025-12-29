@@ -5,20 +5,18 @@ import PostCard from "@/components/shared/PostCard";
 import UserCard from "@/components/shared/UserCard";
 import { useGetRecentPosts, useGetUsers } from "@/lib/react-query/queriesAndMutations";
 import type { Models } from "appwrite";
-
-
+import { useUserContext } from "@/context/AuthContext";
 
 const Home = () => {
   const { data: posts, isPending: isPostLoading, isError: isErrorPosts } = useGetRecentPosts();
+  const { user: currentUser } = useUserContext();
 
-    const {
-    data: creators,
-    isLoading: isUserLoading,
-    isError: isErrorCreators,
-
-  } = useGetUsers(10);
-  // console.log('posts in home:', posts);
-
+  const {
+  data: creators,
+  isLoading: isUserLoading, 
+  isError: isErrorCreators,
+  } = useGetUsers(10);  
+  
     if (isErrorPosts || isErrorCreators) {
     return (
       <div className="flex flex-1">
@@ -31,7 +29,7 @@ const Home = () => {
       </div>
     );
   }
-//su thayu ena thi?
+
   return (
     <div className='flex overflow-scroll xl:flex-row flex-1 flex-col'>
       <div className='flex flex-col flex-1 items-center gap-10 py-10 px-5 xl:w-3/4 md:px-8 lg:p-14  '>
@@ -54,8 +52,10 @@ const Home = () => {
           {isUserLoading && !creators ? (
             <Loader />
           ) : ( 
-            <ul className="flex flex-col sm:flex-row xl:flex-col flex-1  gap-9 w-full">
-              {creators?.documents.map((creator) => (
+            <ul className="flex flex-col sm:flex-row xl:flex-col flex-1 gap-9 w-full">
+              {creators?.documents
+              .filter((creator) => creator.$id !== currentUser?.id)
+              .map((creator) => (
                 <li key={creator?.$id} className="w-full ">
                   <UserCard user={creator} />
                 </li>

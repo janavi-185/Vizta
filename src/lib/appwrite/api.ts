@@ -1,7 +1,8 @@
 import { ID, Query } from 'appwrite';
 import type { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types';
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-// import { number } from 'zod';
+// import { data } from 'react-router-dom';
+
 
 export async function createUserAccount(user: INewUser) {
 
@@ -521,3 +522,78 @@ export async function updateUser(user: IUpdateUser) {
     console.log(error);
   }
 }
+
+export async function followUser(
+    followerId: string, 
+    followingId: string
+) {
+//   console.log("FOLLOW API CALLED", followerId, followingId);÷
+
+  return databases.createDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.followsCollectionId,
+    ID.unique(),
+    { 
+        followerId, 
+        followingId
+     }
+  );
+}
+
+export async function unfollowUser(
+    followerId: string,
+    followingId: string
+){
+    const res = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.followsCollectionId,
+        [
+            Query.equal('followerId', followerId),
+            Query.equal('followingId', followingId)
+        ]
+    );
+
+    if(res.documents.length > 0){
+        return await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.followsCollectionId,
+            res.documents[0].$id
+        );
+    }
+}
+
+export async function isFollowing(
+  followerId: string,
+  followingId: string
+) {
+  const res = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.followsCollectionId,
+    [
+      Query.equal("followerId", followerId),
+      Query.equal("followingId", followingId),
+    ]
+  );
+
+  return res.total > 0;
+}
+
+// export async function getFollowCounts(userId: string) {
+//   const [followers, following] = await Promise.all([
+//     databases.listDocuments(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.followsCollectionId,
+//       [Query.equal("followingId", userId)]
+//     ),
+//     databases.listDocuments(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.followsCollectionId,
+//       [Query.equal("followerId", userId)]
+//     ),
+//   ]);
+
+//   return {
+//     followers: followers.total,
+//     following: following.total,
+//   };
+// }
